@@ -1,6 +1,7 @@
 import { Form, Radio } from "antd";
 import type { FormInstance } from "antd/es/form";
 import { useRef } from "react";
+import {servers} from "../servers";
 
 const OrderBy = ({ submit, handleForm, userData }: any) => {
   const formRef = useRef<FormInstance>(null);
@@ -31,9 +32,9 @@ const OrderBy = ({ submit, handleForm, userData }: any) => {
           rules={[{ required: true, message: "Please input Server name!" }]}
         >
           <Radio.Group name="serverName" value={userData.serverName} onChange={handleForm}>
-            <Radio.Button value="omer">Omer</Radio.Button>
-            <Radio.Button value="server 2">Server 2</Radio.Button>
-            <Radio.Button value="server 3">Server 3</Radio.Button>
+            {servers.map((el, index) => (
+              <Radio.Button value={el} key={index}>{el}</Radio.Button>
+            ))}
           </Radio.Group>
         </Form.Item>
 

@@ -1,0 +1,74 @@
+.receipt {
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    padding: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .receipt-header {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .hds {
+    font-size: 12px
+  }
+  
+  .receipt-items {
+    margin-bottom: 10px;
+  }
+  
+  .receipt-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .item-name {
+    font-size: 14px;
+    flex: 3;
+  }
+  
+  .item-quantity,
+  .item-price,
+  .item-size {
+    flex: 1;
+    text-align: right;
+    font-size: 14px;
+  }
+  
+  .receipt-total {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .receipt-footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .app {
+    text-align: center;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

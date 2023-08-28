@@ -9,7 +9,7 @@ const mongoosed = require("mongoose");
 app.register(cors);
 
 try {
-  mongoosed.connect("mongodb://localhost/devDB");
+  mongoosed.connect('mongodb://127.0.0.1/blog')
 } catch (e) {
   console.error(e);
 }
@@ -53,6 +53,14 @@ app.get("/most-selling-unit/:customDate", async (request: any, reply: any) => {
     reply.send(mostSellingUnit[0]);
   } catch (err) {}
 });
+
+const latestRecord = async () => {
+  return await orderDB.find({}).sort({ orderNumber: -1 }).limit(1).select("orderNumber");
+}
+
+app.get("/latest-order", async (request: any, reply: any) => {
+  return await latestRecord();
+})
 
 app.get("/total-sale-by-date/:id", async (request: any, reply: any) => {
   const { id } = request.params;
@@ -171,13 +179,17 @@ app.post("/auth/login", async (request: any, reply: any) => {
 app.post("/add-order", async (request: any, reply: any) => {
   try {
     const { serverName, tableNo, order } = request.body;
+    const onumber = await latestRecord();
+    const orderNumber = onumber[0]?.orderNumber ? onumber[0]?.orderNumber + 1 : 0;
+    console.log(onumber)
+    console.log(orderNumber, "zzzzz")
     const newOrder = new orderDB();
     newOrder.serverName = serverName;
     newOrder.tableNo = tableNo;
+    newOrder.orderNumber = orderNumber;
     let finalOrder: any = [];
     for (let i = 0; i < order.length; i++) {
       let eachOrder = order[i].itemData;
-      console.log(eachOrder);
       let orderObj = {
         itemName: eachOrder.label,
         itemValue: eachOrder.value,
@@ -190,6 +202,7 @@ app.post("/add-order", async (request: any, reply: any) => {
     }
 
     newOrder.orderDetails = finalOrder;
+    console.log(newOrder)
     let x = await newOrder.save();
     reply.send(x);
   } catch (err) {

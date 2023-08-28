@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import OrderItems from "./crud/OrderItems";
 import OrderBy from "./crud/OrderBy";
 import axios from "axios";
@@ -19,6 +19,7 @@ function Crud() {
 
   const [userData, setUserData] = useState<any>(userFields);
   const [submit, setSubmit] = useState(false);
+  const [orderNumber, setOrderNumber] = useState(0);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -28,6 +29,15 @@ function Crud() {
     setUserData(userFields);
     handlePrint();
   };
+
+  useEffect(() => {
+    const lorder = async () => {
+      let {data} = await axios.get("http://localhost:5001/latest-order");
+      setOrderNumber(data[0].orderNumber)
+    }
+    lorder();
+
+  }, []);
 
   const getFilteredData = (_data: any) => {
     const order = _data.order.map((obj: any) => {
@@ -207,6 +217,7 @@ function Crud() {
           grandTotal={getGrandTotal()}
           getPrice={getPrice}
           userData={userData}
+          orderNumber={orderNumber}
         />
       </form>
     </div>

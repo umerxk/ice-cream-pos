@@ -5,10 +5,11 @@ const OrderSchema = new mongoos.Schema({
   orderDetails: Array,
   tableNo: Number,
   serverName: String,
+  orderNumber: { type: Number, default: 0 }
 },
-{
-  timestamps: true // Enables automatic generation of 'createdAt' and 'updatedAt' fields
-}
+  {
+    timestamps: true // Enables automatic generation of 'createdAt' and 'updatedAt' fields
+  }
 );
 
 module.exports = mongoos.model("Order", OrderSchema);
