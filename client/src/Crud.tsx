@@ -121,7 +121,7 @@ function Crud() {
     }, 100);
   };
 
-  const handlePrints = () => {
+  // const handlePrints = () => {
     
     // let printContents: any = document?.getElementById("bill_");
     // console.log(printContents);
@@ -132,7 +132,7 @@ function Crud() {
     //   window.print();
     //   // document.body.innerHTML = originalContents;
     // }
-  };
+  // };
 
   const getPrice = (val: any, itemSize = "large") => {
     const x: any = wholeMenu.find((elx: any) => elx?.value === val)?.price;
