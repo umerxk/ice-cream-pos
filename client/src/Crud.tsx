@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import Bill from "./Bill";
 import ItemDetails from "./BillDetails/ItemDetails/ItemDetails";
 import OrderDetails from "./BillDetails/OrderDetails/OrderDetails";
+import Ptt from "./Ptt";
 
 function Crud() {
   const orderFields = { uid: 0, itemData: {}, itemQuantity: 1, size: "large" };
@@ -99,15 +100,38 @@ function Crud() {
   };
 
   const handlePrint = () => {
-    let printContents: any = document?.getElementById("bill_");
-    console.log(printContents);
-    if (printContents) {
-      printContents = printContents.innerHTML;
-      const originalContents = document.body.innerHTML;
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-    }
+    const iframe: any = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const printContent = `
+      <div style="font-size: 12px;">
+        <!-- Your bill content here -->
+        <p>Bill content goes here.</p>
+      </div>
+    `;
+
+    iframe.contentDocument.write(printContent);
+    iframe.contentDocument.close();
+    iframe.contentWindow.print();
+
+    // Wait for a short time before removing the iframe
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+    }, 100);
+  };
+
+  const handlePrints = () => {
+    
+    // let printContents: any = document?.getElementById("bill_");
+    // console.log(printContents);
+    // if (printContents) {
+    //   printContents = printContents.innerHTML;
+    //   // const originalContents = document.body.innerHTML;
+    //   document.body.innerHTML = printContents;
+    //   window.print();
+    //   // document.body.innerHTML = originalContents;
+    // }
   };
 
   const getPrice = (val: any, itemSize = "large") => {
@@ -220,6 +244,7 @@ function Crud() {
           orderNumber={orderNumber}
         />
       </form>
+      <Ptt/>
     </div>
   );
 }
