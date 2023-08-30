@@ -7,7 +7,6 @@ import { Button } from "@mui/material";
 import Bill from "./Bill";
 import ItemDetails from "./BillDetails/ItemDetails/ItemDetails";
 import OrderDetails from "./BillDetails/OrderDetails/OrderDetails";
-import Ptt from "./Ptt";
 
 function Crud() {
   const orderFields = { uid: 0, itemData: {}, itemQuantity: 1, size: "large" };
@@ -101,17 +100,15 @@ function Crud() {
 
   const handlePrint = () => {
     const iframe: any = document.createElement('iframe');
+    let printContents: any = document?.getElementById("bill_");
+    printContents = printContents.innerHTML;
+
     iframe.style.display = 'none';
     document.body.appendChild(iframe);
 
-    const printContent = `
-      <div style="font-size: 12px;">
-        <!-- Your bill content here -->
-        <p>Bill content goes here.</p>
-      </div>
-    `;
+    
 
-    iframe.contentDocument.write(printContent);
+    iframe.contentDocument.write(printContents);
     iframe.contentDocument.close();
     iframe.contentWindow.print();
 
@@ -244,7 +241,6 @@ function Crud() {
           orderNumber={orderNumber}
         />
       </form>
-      <Ptt/>
     </div>
   );
 }
