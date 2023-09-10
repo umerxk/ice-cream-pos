@@ -138,7 +138,6 @@ app.get("/date/:id/:page", async (request: any, reply: any) => {
       .skip((request.params.page - 1) * 10);
     reply.send({ order, totalCount });
   } catch (err) {
-    console.log(err);
   }
 });
 

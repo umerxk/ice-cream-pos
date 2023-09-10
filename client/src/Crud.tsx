@@ -122,7 +122,6 @@ function Crud() {
         return;
       }
       setMyOrder([
-        ...myOrder,
         {
           count: 1,
           label: data.label,
@@ -130,6 +129,7 @@ function Crud() {
           category: data.category,
           price: data.price?.small ? data.price?.large : data.price,
         },
+        ...myOrder
       ]);
     } else {
       const alreadyExist = myOrder.findIndex(
@@ -172,6 +172,29 @@ function Crud() {
     }
   };
 
+  const handleDel = (value: string, action: string) => {
+    const alreadyExist = myOrder.findIndex((el: any) => el.value === value);
+    if (action === "minus") {
+      let newOrder = [...myOrder];
+      if (newOrder[alreadyExist].count === 1) {
+        const filter = myOrder.filter((el: any) => el.value !== value);
+        setMyOrder(filter);
+        return;
+      }
+      newOrder[alreadyExist].count -= 1;
+      setMyOrder(newOrder);
+      return;
+    } else {
+      if (alreadyExist > -1) {
+        let newOrder = [...myOrder];
+        newOrder[alreadyExist].count += 1;
+        setMyOrder(newOrder);
+        return;
+      }
+    }
+
+  }
+
   return (
     <div style={{ marginTop: 100 }}>
       <Search
@@ -209,9 +232,8 @@ function Crud() {
             >
               <Meta
                 title={el.label}
-                description={`Price: ${
-                  el.price?.small ? el.price?.large : el.price
-                } PKR`}
+                description={`Price: ${el.price?.small ? el.price?.large : el.price
+                  } PKR`}
               />
             </Card>
           ))}
@@ -226,6 +248,7 @@ function Crud() {
             myOrder={myOrder}
             getPrice={getPrice}
             userData={userData}
+            handleDel={handleDel}
           />
           <div
             className="form-group"

@@ -29,7 +29,7 @@ const OrderBy = ({ submit, handleForm }: any) => {
   };
 
   return (
-    <div style={{ marginBottom: 30, marginLeft: -150 }}>
+    <div style={{ marginBottom: 30, marginLeft: -80 }}>
       <Form
         {...layout}
         ref={formRef}
