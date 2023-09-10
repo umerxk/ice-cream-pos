@@ -35,7 +35,7 @@ export default function ItemDetails({ myOrder, handleDel }: any) {
             dataIndex: "price",
           },
           {
-            title: "Delete",
+            title: "Action",
             dataIndex: "action",
           },
         ];

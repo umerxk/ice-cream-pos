@@ -1,4 +1,6 @@
 import "./bill.css";
+import dayjs from "dayjs";
+
 const ReceiptPrinter = ({
   grandTotal,
   tableNo,
@@ -24,21 +26,22 @@ const ReceiptPrinter = ({
       </div>
 
       <div style={{ marginTop: 0, textAlign: "start" }} className="hds">
-        <div>-------------------------------------------------------------</div>
+        <div>------------------------------------------------</div>
         Date {new Date().toLocaleDateString()}
-        <div>-------------------------------------------------------------</div>
+        <span style={{ marginLeft: 20 }}>
+        {dayjs().format('h:mm A')}
+        </span>
+        <div>------------------------------------------------</div>
       </div>
 
       <div className="receipt-items">
         {myOrder?.map((item: any, index: any) => (
           <div key={index} className="receipt-item">
             <span className="item-name">{item?.label}</span>
-            <span className="item-size">
+            <span className="item-size" style={{ marginLeft: 10 }}>
               {item.price?.small ? item.price?.large : item?.price}
             </span>
-            <span className="item-quantity" style={{ marginRight: 10 }}>
-              x{item?.count}
-            </span>
+            <span className="item-quantity" style={{ marginLeft: 10 }}>x <span style={{ marginLeft: 5 }}>{item.count} = </span> </span>
             <span className="item-price">{item?.count * item?.price}</span>
           </div>
         ))}
