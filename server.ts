@@ -180,7 +180,7 @@ app.post("/add-order", async (request: any, reply: any) => {
   try {
     const { serverName, tableNo, order } = request.body;
     const onumber = await latestRecord();
-    const orderNumber = onumber[0]?.orderNumber ? onumber[0]?.orderNumber + 1 : 0;
+    const orderNumber = onumber.length ? onumber[0]?.orderNumber + 1 : 1;
     console.log(onumber)
     console.log(orderNumber, "zzzzz")
     const newOrder = new orderDB();

@@ -37,8 +37,8 @@ export default function OrderDetails({ userData, grandTotal }: any) {
 
   return (
     <>
-      <h3>Order Details</h3>
-      <Vtable getCols={getPriceCols()} />
+      {/* <h3>Order Details</h3> */}
+      {/* <Vtable getCols={getPriceCols()} /> */}
     </>
   );
 }

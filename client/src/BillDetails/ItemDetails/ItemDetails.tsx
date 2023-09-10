@@ -45,10 +45,10 @@ export default function ItemDetails({ userData, getPrice }: any) {
 
   return (
     <>
-      <h3>Item Details</h3>
+      {/* <h3>Item Details</h3>
       <Vtable getCols={getOrderCols()} />
       <br />
-      <br />
+      <br /> */}
     </>
   );
 }

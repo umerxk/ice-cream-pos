@@ -24,7 +24,7 @@ const SaleBlock = ({ dateData, totalClients, isDate }: any) => {
       </Col>
 
       <Col span={8} style={{ marginTop: 20 }}>
-        <Card hoverable color="black" title="Total Items sold" bordered={false}>
+        <Card hoverable color="black" title="Most Item sold" bordered={false}>
           Name: {dateData?.mostSellingUnit?._id || 0}
           <br/>
           <span>

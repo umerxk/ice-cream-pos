@@ -111,11 +111,7 @@ function Crud() {
     iframe.contentDocument.write(printContents);
     iframe.contentDocument.close();
     iframe.contentWindow.print();
-
-    // Wait for a short time before removing the iframe
-    setTimeout(() => {
-      document.body.removeChild(iframe);
-    }, 100);
+    window.location.reload();
   };
 
   // const handlePrints = () => {
@@ -219,7 +215,7 @@ function Crud() {
         <div
           className="form-group"
           style={{
-            marginTop: 40,
+            marginTop: 20,
             marginBottom: 100,
             justifyContent: "end",
             display: "flex",

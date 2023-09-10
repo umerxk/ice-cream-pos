@@ -50,6 +50,11 @@ const OrderBy = ({ submit, handleForm, userData }: any) => {
             <Radio.Button value="4">Four</Radio.Button>
             <Radio.Button value="5">Five</Radio.Button>
             <Radio.Button value="6">Six</Radio.Button>
+            <Radio.Button value="7">Seven</Radio.Button>
+            <Radio.Button value="8">Eight</Radio.Button>
+            <Radio.Button value="car">Car Order</Radio.Button>
+            <Radio.Button value="Bike">Bike Order</Radio.Button>
+            <Radio.Button value="coustmer">Customer Order</Radio.Button>
           </Radio.Group>
         </Form.Item>
       </Form>
