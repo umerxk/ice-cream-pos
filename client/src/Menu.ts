@@ -39,6 +39,12 @@ export const delights = [
 
 export const shakes = [
   {
+    label: "Extra topping Shake",
+    value: "extraToppingShake",
+    price: 80,
+    category: "shakes",
+  },
+  {
     label: "Lotus cheesecake shake",
     value: "lotusCheesecakeShake",
     price: 450,
@@ -59,14 +65,14 @@ export const shakes = [
   {
     label: "Oreo shake",
     value: "oreoShake",
-    price: 320,
+    price: 350,
     category: "shakes",
 
   },
   {
     label: "Chocolate Shake",
     value: "chocolateShake",
-    price: 450,
+    price: 350,
     category: "shakes",
 
   },
@@ -87,7 +93,7 @@ export const shakes = [
   {
     label: "Hazelnut shake",
     value: "hazelnutShake",
-    price: 420,
+    price: 450,
     category: "shakes",
 
   },
@@ -148,8 +154,8 @@ export const shakes = [
 
   },
   {
-    label: "Choco peanut butter shake",
-    value: "chocoPeanutButterShake",
+    label: "peanut butter shake",
+    value: "PeanutButterShake",
     price: 400,
     category: "shakes",
 
@@ -183,109 +189,85 @@ export const shakes = [
 
   },
   {
-    label: "Caramel cold coffee",
-    value: "caramelColdCoffee",
+    label: "Caramel cold coffee shake",
+    value: "caramelColdCoffeeShake",
     price: 400,
     category: "shakes",
 
   },
   {
-    label: "Chocolate cold coffee",
-    value: "chocolateColdCoffee",
+    label: "Chocolate cold coffee shake",
+    value: "chocolateColdCoffeeShake",
     price: 400,
     category: "shakes",
 
-  },
-  {
-    label: "Cold coffee with icecream",
-    value: "coldCoffeeWithIcecream",
-    price: 400,
-    category: "shakes",
-  },
+  }
 ];
 
 export const sundaes = [
   {
-    label: "Strawberry",
-    value: "strawberry",
+    label: "Strawberry Sundae",
+    value: "strawberrySundae",
     price: 330,
     category: "sundaes",
   },
   {
-    label: "Caramel",
-    value: "caramel",
+    label: "Caramel Sundae",
+    value: "caramelSundae",
     price: 330,
     category: "sundaes",
   },
   {
-    label: "Mango",
-    value: "mango",
+    label: "Mango Sundae",
+    value: "mangoSundae",
     price: 330,
     category: "sundaes",
   },
   {
-    label: "Chocolate fudge",
-    value: "chocolateFudge",
+    label: "Chocolate fudge Sundae",
+    value: "chocolateFudgeSundae",
     price: 350,
     category: "sundaes",
   },
   {
-    label: "Peanut butter ",
-    value: "peanutButter ",
+    label: "Peanut butter Sundae",
+    value: "peanutButterSundae",
     price: 350,
     category: "sundaes",
   },
   {
-    label: "Blue berry",
-    value: "blueBerry",
+    label: "Blue berry Sundae",
+    value: "blueBerrySundae",
     price: 350,
     category: "sundaes",
   },
   {
-    label: "Coffee",
-    value: "coffee",
-    price: 280,
-    category: "sundaes",
-  },
-  {
-    label: "vanilla",
-    value: "Vanilla",
-    price: 280,
-    category: "sundaes",
-  },
-  {
-    label: "Special nutty",
-    value: "specialNutty",
-    price: 330,
-    category: "sundaes",
-  },
-  {
-    label: "Nutella",
-    value: "nutella",
+    label: "Nutella Sundae",
+    value: "nutellaSundae",
     price: 400,
     category: "sundaes",
   },
   {
-    label: "Hazelnut",
-    value: "hazelnut",
+    label: "Hazelnut Sundae",
+    value: "hazelnutSundae",
     price: 400,
     category: "sundaes",
   },
   {
-    label: "lotus",
-    value: "lotus",
+    label: "lotus Sundae",
+    value: "lotusSundae",
     price: 400,
     category: "sundaes",
   },
   {
-    label: "Super Chocolate fudge",
-    value: "SuperchocolateFudge",
+    label: "Super Chocolate fudge Sundae",
+    value: "SuperchocolateFudgeSundae",
     price: 450,
     category: "sundaes",
   },
   {
-    label: "Tutti Frutti",
-    value: "TuttiFrutti",
+    label: "Tutti Frutti Sundae",
+    value: "TuttiFruttiSundae",
     price: 400,
     category: "sundaes",
   },
@@ -293,8 +275,20 @@ export const sundaes = [
 
 export const cones = [
   {
-    label: "Waffle cone",
-    value: "waffleCone",
+    label: "Extra topping Cone",
+    value: "extraToppingCone",
+    price: 60,
+    category: "cones",
+  },
+  {
+    label: "Only simple waffle",
+    value: "onlySimpleWaffle",
+    price: 20,
+    category: "cones",
+  },
+  {
+    label: "Simple Waffle",
+    value: "Simplewaffle",
     price: 100,
     category: "cones",
   },
@@ -306,31 +300,55 @@ export const cones = [
   },
   {
     label: "Oreo waffle",
-    value: "oreoWaffle",
+    value: "oreoWaffleCone",
     price: 150,
     category: "cones",
   },
   {
     label: "Sprinkle waffle",
-    value: "sprinkleWaffle",
+    value: "sprinkleWaffleCone",
     price: 150,
     category: "cones",
   },
   {
-    label: "Waffle cone with toping",
-    value: "WaffleConeWithToping",
-    price: 200,
+    label: "chocolate wafle",
+    value: "WaffleConeWithTopingChocolate",
+    price: 150,
+    category: "cones",
+  },
+  {
+    label: "mango wafle",
+    value: "WaffleConeWithTopingMango",
+    price: 150,
+    category: "cones",
+  },
+  {
+    label: "blueberry wafle",
+    value: "WaffleConeWithTopingBlueberry",
+    price: 150,
+    category: "cones",
+  },
+  {
+    label: "strawberry wafle",
+    value: "WaffleConeWithTopingStrawberry",
+    price: 150,
     category: "cones",
   },
   {
     label: "Nutty waffle",
-    value: "nuttyWaffle",
+    value: "nuttyWaffleCone",
     price: 220,
     category: "cones",
   },
   {
+    label: "Water bottle",
+    value: "waterBottle",
+    price: 70,
+    category: "cones",
+  },
+  {
     label: "Lotus waffle",
-    value: "lotusWaffle",
+    value: "lotusWaffleCone",
     price: 250,
     category: "cones",
   },
@@ -344,8 +362,26 @@ export const cups = [
     category: "cups",
   },
   {
-    label: "Simple Cup with topping",
-    value: "simpleCupWithTopping",
+    label: "chocolate Cup",
+    value: "CupWithToppingChocolate",
+    price: 200,
+    category: "cups",
+  },
+  {
+    label: "strawberry cup",
+    value: "simpleCupWithToppingStrawberry",
+    price: 200,
+    category: "cups",
+  },
+  {
+    label: "mango cup",
+    value: "simpleCupWithToppingMango",
+    price: 200,
+    category: "cups",
+  },
+  {
+    label: "blueberry cup",
+    value: "simpleCupWithToppingBlueberry",
     price: 200,
     category: "cups",
   },
@@ -373,9 +409,24 @@ export const cups = [
     price: 300,
     category: "cups",
   },
+  {
+    label: "Extra topping Cup",
+    value: "extraToppingCup",
+    price: 60,
+    category: "cups",
+  },
 ];
 
 export const blizzerd = [
+  {
+    label: "Extra topping blizzerd",
+    value: "extraToppingBlizzerd",
+    price: {
+      small: 200,
+      large: 100,
+    },
+    category: "blizzerd",
+  },
   {
     label: "Dairy milk Blizzard",
     value: "dairyMilkBlizzard",
@@ -431,8 +482,8 @@ export const blizzerd = [
     category: "blizzerd",
   },
   {
-    label: "coffee xtreme",
-    value: "coffeeXtreme",
+    label: "chocolate xtreme blizzard",
+    value: "chocolateXtreme",
     price: {
       small: 200,
       large: 400,
@@ -440,8 +491,8 @@ export const blizzerd = [
     category: "blizzerd",
   },
   {
-    label: "Twix caramel",
-    value: "twixCaramel",
+    label: "Twix caramel blizzard",
+    value: "twixCaramelBlizzard",
     price: {
       small: 200,
       large: 450,
@@ -467,8 +518,8 @@ export const blizzerd = [
     category: "blizzerd",
   },
   {
-    label: "Lotus biscoff",
-    value: "LotusBiscoff",
+    label: "Mango cheesecake Blizzard",
+    value: "mangoCheesecakeBlizzard",
     price: {
       small: 225,
       large: 450,
@@ -476,8 +527,8 @@ export const blizzerd = [
     category: "blizzerd",
   },
   {
-    label: "Mango cheesecake",
-    value: "mangoCheesecake",
+    label: "Caramel cheesecake Blizzard",
+    value: "caramelCheesecakeBlizzard",
     price: {
       small: 225,
       large: 450,
@@ -485,17 +536,8 @@ export const blizzerd = [
     category: "blizzerd",
   },
   {
-    label: "Caramel cheesecake",
-    value: "caramelCheesecake",
-    price: {
-      small: 225,
-      large: 450,
-    },
-    category: "blizzerd",
-  },
-  {
-    label: "Lotus cheesecake",
-    value: "lotusCheesecake",
+    label: "Lotus cheesecake Blizzard",
+    value: "lotusCheesecakeBlizzard",
     price: {
       small: 225,
       large: 450,
@@ -516,24 +558,6 @@ export const blizzerd = [
     value: "mintOreoBlizzard",
     price: {
       small: 200,
-      large: 400,
-    },
-    category: "blizzerd",
-  },
-  {
-    label: "Kitkat xtreme",
-    value: "kitkatXtreme",
-    price: {
-      small: 200,
-      large: 400,
-    },
-    category: "blizzerd",
-  },
-  {
-    label: "Chocolate xtreme",
-    value: "chocolateXtreme",
-    price: {
-      small: 200,
       large: 450,
     },
     category: "blizzerd",
@@ -548,8 +572,8 @@ export const blizzerd = [
     category: "blizzerd",
   },
   {
-    label: "blueberry cheesecake",
-    value: "blueberryCheesecake",
+    label: "blueberry cheesecake blizzard",
+    value: "blueberryCheesecakeBlizzard",
     price: {
       small: 200,
       large: 450,
@@ -557,8 +581,8 @@ export const blizzerd = [
     category: "blizzerd",
   },
   {
-    label: "strawberry cheesecake",
-    value: "strawberryCheesecake",
+    label: "strawberry cheesecake blizzard",
+    value: "strawberryCheesecakeBlizzard",
     price: {
       small: 200,
       large: 450,

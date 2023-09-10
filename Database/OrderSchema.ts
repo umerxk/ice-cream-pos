@@ -3,12 +3,12 @@ const mongoos = require("mongoose");
 
 const OrderSchema = new mongoos.Schema({
   orderDetails: Array,
-  tableNo: Number,
+  tableNo: String,
   serverName: String,
   orderNumber: { type: Number, default: 0 }
 },
   {
-    timestamps: true // Enables automatic generation of 'createdAt' and 'updatedAt' fields
+    timestamps: true
   }
 );
 

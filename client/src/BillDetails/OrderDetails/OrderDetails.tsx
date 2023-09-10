@@ -18,17 +18,14 @@ export default function OrderDetails({ userData, grandTotal }: any) {
           {
             title: "Served By",
             dataIndex: "serverName",
-            width: 200,
           },
           {
             title: "Table Number",
             dataIndex: "tableNumber",
-            width: 250,
           },
           {
             title: "Grand Total",
             dataIndex: "grandTotal",
-            width: 350,
           },
         ];
       },

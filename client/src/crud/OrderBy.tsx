@@ -1,14 +1,13 @@
-import { Form, Radio } from "antd";
 import type { FormInstance } from "antd/es/form";
 import { useRef } from "react";
-import {servers} from "../servers";
+import { Select, Form } from "antd";
+import { servers, tableNo } from "../servers";
 
-const OrderBy = ({ submit, handleForm, userData }: any) => {
+const OrderBy = ({ submit, handleForm }: any) => {
   const formRef = useRef<FormInstance>(null);
 
   const onFinish = (values: any) => {
     submit(values);
-    console.log("Success:", values);
   };
 
   const layout = {
@@ -16,9 +15,21 @@ const OrderBy = ({ submit, handleForm, userData }: any) => {
     wrapperCol: { span: 16 },
   };
 
+  const getOpts = (action: string) => {
+    if (action === "server") {
+      return servers.map((el) => {
+        return {
+          value: el,
+          label: el,
+        };
+      });
+    } else {
+      return tableNo;
+    }
+  };
+
   return (
-    <div className="parent-server-2" style={{ marginBottom: 30 }}>
-      <h2>Server details</h2>
+    <div style={{ marginBottom: 30, marginLeft: -150 }}>
       <Form
         {...layout}
         ref={formRef}
@@ -31,11 +42,12 @@ const OrderBy = ({ submit, handleForm, userData }: any) => {
           name="server"
           rules={[{ required: true, message: "Please input Server name!" }]}
         >
-          <Radio.Group name="serverName" value={userData.serverName} onChange={handleForm}>
-            {servers.map((el, index) => (
-              <Radio.Button value={el} key={index}>{el}</Radio.Button>
-            ))}
-          </Radio.Group>
+          <Select
+            defaultValue={servers[0]}
+            style={{ width: 180 }}
+            onChange={(e) => handleForm(e, "serverName")}
+            options={getOpts("server")}
+          />
         </Form.Item>
 
         <Form.Item
@@ -43,14 +55,12 @@ const OrderBy = ({ submit, handleForm, userData }: any) => {
           name="tableNo"
           rules={[{ required: true, message: "Please input Table number!" }]}
         >
-          <Radio.Group name="tableNo" value={userData.serverName} onChange={handleForm}>
-            <Radio.Button value="1">One</Radio.Button>
-            <Radio.Button value="2">Two</Radio.Button>
-            <Radio.Button value="3">Three</Radio.Button>
-            <Radio.Button value="4">Four</Radio.Button>
-            <Radio.Button value="5">Five</Radio.Button>
-            <Radio.Button value="6">Six</Radio.Button>
-          </Radio.Group>
+          <Select
+            defaultValue={tableNo[0].value}
+            style={{ width: 180 }}
+            onChange={(e) => handleForm(e, "tableNo")}
+            options={getOpts("tableNo")}
+          />
         </Form.Item>
       </Form>
     </div>

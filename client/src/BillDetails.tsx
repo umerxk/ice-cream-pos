@@ -1,13 +1,11 @@
 import "./bill.css";
 const ReceiptPrinter = ({
-  orderData,
-  getPrice,
   grandTotal,
   tableNo,
   server,
   orderNumber,
+  myOrder,
 }: any) => {
-  console.log(orderData);
   return (
     <div className="receipt app" id="bill_" style={{ display: "none" }}>
       {/* <img src={"boys.png"} style={{ height: 100, width: 100, marginTop: -40 }} /> */}
@@ -32,48 +30,44 @@ const ReceiptPrinter = ({
       </div>
 
       <div className="receipt-items">
-        {orderData.map((item: any, index: any) => (
+        {myOrder?.map((item: any, index: any) => (
           <div key={index} className="receipt-item">
-            <span className="item-name">{item.itemData?.label}</span>
-            <span className="item-size">{item.itemData.price?.small ? item.itemData.price?.large : item.itemData?.price  }</span>
-            <span className="item-quantity" style={{ marginRight: 10 }}>x{item.itemQuantity}</span>
-            {/* <span className="item-size">{item.size}</span> */}
-            <span className="item-price">
-              {getPrice(item.itemData.value, item?.size) *
-                parseInt(item.itemQuantity) || 0}
+            <span className="item-name">{item?.label}</span>
+            <span className="item-size">
+              {item.price?.small ? item.price?.large : item?.price}
             </span>
+            <span className="item-quantity" style={{ marginRight: 10 }}>
+              x{item?.count}
+            </span>
+            <span className="item-price">{item?.count * item?.price}</span>
           </div>
         ))}
       </div>
-      <div style={{ fontSize: 14 }}>-----------------------------------------------------</div>
+      <div style={{ fontSize: 14 }}>
+        -----------------------------------------------------
+      </div>
 
-      <div className="receipt-total">
-        Total: {grandTotal}
-      </div>
-      <div className="receipt-footer">
-        Thank you for dining with us!
-      </div>
+      <div className="receipt-total">Total: {grandTotal}</div>
+      <div className="receipt-footer">Thank you for dining with us!</div>
     </div>
   );
 };
 
 const BillDetails = ({
-  details,
-  getPrice,
   grandTotal,
   server,
   tableNo,
   orderNumber,
+  myOrder,
 }: any) => {
   return (
-      <ReceiptPrinter
-        orderNumber={orderNumber}
-        grandTotal={grandTotal}
-        orderData={details}
-        server={server}
-        tableNo={tableNo}
-        getPrice={getPrice}
-      />
+    <ReceiptPrinter
+      orderNumber={orderNumber}
+      grandTotal={grandTotal}
+      server={server}
+      tableNo={tableNo}
+      myOrder={myOrder}
+    />
   );
 };
 

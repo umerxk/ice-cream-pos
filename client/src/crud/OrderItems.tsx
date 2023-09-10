@@ -4,6 +4,7 @@ import { Button, Form, InputNumber, Statistic, Row } from "antd";
 import { AutoComplete } from "antd";
 import { useState } from "react";
 import { Card } from "antd";
+import OrderBy from "./OrderBy";
 
 const OrderItems = ({
   handleOrderForm,
@@ -12,6 +13,8 @@ const OrderItems = ({
   handleAdd,
   handleOrderFormMui,
   deleteItem,
+  handleForm,
+  submit
 }: any) => {
   const [anotherOptions, setAnotherOptions] =
     useState<{ value: string }[]>(wholeMenu);
@@ -25,7 +28,13 @@ const OrderItems = ({
 
   const [form] = Form.useForm();
   return (
+    
     <div className="parent-server">
+       {/* <OrderBy
+            submit={submit}
+            handleForm={handleForm}
+            userData={userData}
+          /> */}
       <h1>Order Items</h1>
 
       {userData.order.map((el: any, index: number) => {

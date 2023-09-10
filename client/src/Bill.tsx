@@ -1,14 +1,14 @@
 import BillDetails from "./BillDetails";
 
-const Bill = ({ grandTotal, getPrice, userData, orderNumber }: any) => {
+const Bill = ({ grandTotal, getPrice, userData, orderNumber, myOrder }: any) => {
   return (
       <BillDetails
         orderNumber={orderNumber}
         server={userData?.serverName}
         tableNo={userData?.tableNo}
-        details={userData.order}
         getPrice={getPrice}
         grandTotal={grandTotal}
+        myOrder={myOrder}
       />
   );
 };

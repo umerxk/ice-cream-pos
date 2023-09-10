@@ -1,26 +1,28 @@
 import { useState, useEffect } from "react";
-import OrderItems from "./crud/OrderItems";
-import OrderBy from "./crud/OrderBy";
-import axios from "axios";
 import { wholeMenu } from "./Menu";
 import { Button } from "@mui/material";
+import { servers, tableNo } from "./servers";
+import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { Input, Card } from "antd";
 import Bill from "./Bill";
 import ItemDetails from "./BillDetails/ItemDetails/ItemDetails";
-import OrderDetails from "./BillDetails/OrderDetails/OrderDetails";
-import Ptt from "./Ptt";
+import OrderBy from "./crud/OrderBy";
+import axios from "axios";
+
+const { Meta } = Card;
+const { Search } = Input;
 
 function Crud() {
-  const orderFields = { uid: 0, itemData: {}, itemQuantity: 1, size: "large" };
-
   const userFields = {
-    serverName: "",
-    tableNo: "",
-    order: [orderFields],
+    serverName: servers[0],
+    tableNo: tableNo[0].value,
   };
 
   const [userData, setUserData] = useState<any>(userFields);
   const [submit, setSubmit] = useState(false);
   const [orderNumber, setOrderNumber] = useState(0);
+  const [text, setText] = useState("");
+  const [myOrder, setMyOrder] = useState<any>([]);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -28,32 +30,37 @@ function Crud() {
     await axios.post("http://localhost:5001/add-order", filteredData);
     setSubmit(true);
     setUserData(userFields);
-    handlePrint();
+    await handlePrint();
+    lorder();
   };
 
   useEffect(() => {
-    const lorder = async () => {
-      let {data} = await axios.get("http://localhost:5001/latest-order");
-      setOrderNumber(data[0].orderNumber)
-    }
     lorder();
-
   }, []);
 
+  const lorder = async () => {
+    let { data } = await axios.get("http://localhost:5001/latest-order");
+    setOrderNumber(data[0].orderNumber);
+    setMyOrder([]);
+    setUserData(userFields)
+  };
+
   const getFilteredData = (_data: any) => {
-    const order = _data.order.map((obj: any) => {
-      const { itemData, size } = obj;
-      const { price } = itemData;
-      const updatedPrice = typeof price === "number" ? price : price[size];
+    const order = myOrder.map((obj: any) => {
+      const itemQuantity = obj.count;
+      const size = "large";
+      const itemData = {
+        category: obj.category,
+        label: obj.label,
+        price: obj.price,
+        value: obj.value,
+      };
       return {
-        ...obj,
-        itemData: {
-          ...itemData,
-          price: updatedPrice,
-        },
+        itemData,
+        itemQuantity,
+        size,
       };
     });
-
     return {
       serverName: _data.serverName,
       tableNo: _data.tableNo,
@@ -61,78 +68,25 @@ function Crud() {
     };
   };
 
-  const handleForm = (e: any) => {
-    console.log(e)
-    const { value, name } = e.target;
+  const handleForm = (value: string, name: string) => {
     setUserData({
       ...userData,
       [name]: value,
     });
   };
 
-  const handleAdd = (e: any) => {
-    e.preventDefault();
-    let newField = { ...orderFields };
-    newField.uid = userData.order.length;
-    setUserData({
-      ...userData,
-      order: [...userData.order, newField],
-    });
-  };
+  const handlePrint = async () => {
+    const iframe: any = document.createElement("iframe");
+    let printContents: any = document?.getElementById("bill_");
+    printContents = printContents.innerHTML;
 
-  const handleOrderForm = (name: any, value: any, index: number) => {
-    const order = [...userData.order];
-    order[index][name] = value;
-    setUserData({
-      ...userData,
-      order,
-    });
-  };
-
-  const handleOrderFormMui = (x: any, e: any, index: number) => {
-    console.log(x, e);
-    const order = [...userData.order];
-    order[index]["itemData"] = e;
-    setUserData({
-      ...userData,
-      order,
-    });
-  };
-
-  const handlePrint = () => {
-    const iframe: any = document.createElement('iframe');
-    iframe.style.display = 'none';
+    iframe.style.display = "none";
     document.body.appendChild(iframe);
 
-    const printContent = `
-      <div style="font-size: 12px;">
-        <!-- Your bill content here -->
-        <p>Bill content goes here.</p>
-      </div>
-    `;
-
-    iframe.contentDocument.write(printContent);
+    iframe.contentDocument.write(printContents);
     iframe.contentDocument.close();
     iframe.contentWindow.print();
-
-    // Wait for a short time before removing the iframe
-    setTimeout(() => {
-      document.body.removeChild(iframe);
-    }, 100);
   };
-
-  // const handlePrints = () => {
-    
-    // let printContents: any = document?.getElementById("bill_");
-    // console.log(printContents);
-    // if (printContents) {
-    //   printContents = printContents.innerHTML;
-    //   // const originalContents = document.body.innerHTML;
-    //   document.body.innerHTML = printContents;
-    //   window.print();
-    //   // document.body.innerHTML = originalContents;
-    // }
-  // };
 
   const getPrice = (val: any, itemSize = "large") => {
     const x: any = wholeMenu.find((elx: any) => elx?.value === val)?.price;
@@ -144,107 +98,162 @@ function Crud() {
   };
 
   const getGrandTotal = () => {
-    let sum = 0;
-    const allOrders = userData?.order;
-    for (let i = 0; i < allOrders.length; i++) {
-      let isSmall = allOrders[i]?.size === "small";
-      let px = 0;
+    let grandTotal = 0;
+    for (const item of myOrder) {
+      const itemTotal = item.price * item.count;
+      grandTotal += itemTotal;
+    }
+    return grandTotal;
+  };
 
-      if (allOrders[i]?.itemData?.price?.small) {
-        const orderSize = isSmall
-          ? allOrders[i].itemData.price?.small
-          : allOrders[i].itemData.price?.large;
-        const orderQuantity = parseInt(allOrders[i].itemQuantity);
-        px = orderSize * orderQuantity;
-      } else {
-        px = allOrders[i].itemData.price * parseInt(allOrders[i].itemQuantity);
+  const onSearch = (value: string) => {
+    setText(value);
+  };
+
+  const handleMenu = (action: string, data: any) => {
+    if (action === "add") {
+      const alreadyExist = myOrder.findIndex(
+        (el: any) => el.label === data.label
+      );
+      if (alreadyExist > -1) {
+        let newOrder = [...myOrder];
+        newOrder[alreadyExist].count += 1;
+        setMyOrder(newOrder);
+        return;
       }
-
-      sum += px;
-    }
-    return sum;
-  };
-
-  const getDonex = (product: any, quantity: any, itemSize: any) => {
-    return getPrice(product, itemSize) * parseInt(quantity) || 0;
-  };
-
-  const handleSize = (val: any, index: number) => {
-    console.log(val);
-    const order = [...userData.order];
-    order[index]["size"] = val;
-    setUserData({
-      ...userData,
-      order,
-    });
-  };
-
-  const deleteItem = (e: any) => {
-    if (userData.order.length > 1) {
-      const filteredData = userData.order.filter((el: any) => el.uid !== e.uid);
-      setUserData({
-        ...userData,
-        order: filteredData,
-      });
+      setMyOrder([
+        ...myOrder,
+        {
+          count: 1,
+          label: data.label,
+          value: data.value,
+          category: data.category,
+          price: data.price?.small ? data.price?.large : data.price,
+        },
+      ]);
+    } else {
+      const alreadyExist = myOrder.findIndex(
+        (el: any) => el.label === data.label
+      );
+      if (alreadyExist > -1) {
+        let newOrder = [...myOrder];
+        newOrder[alreadyExist].count -= 1;
+        setMyOrder(newOrder);
+        return;
+      }
     }
   };
 
-  const showOrder =
-    userData?.order[0]?.itemData &&
-    Object.values(userData?.order[0]?.itemData)?.length;
+  const filtered: any = () => {
+    if (!text) return wholeMenu;
+    return wholeMenu.filter((el: any) =>
+      el.label.toLowerCase().includes(text.toLocaleLowerCase())
+    );
+  };
+
+  const getImg = (value: string) => {
+    if (value === "blizzerd") {
+      return "ice.svg";
+    }
+    if (value === "shakes") {
+      return "shakes.svg";
+    }
+    if (value === "cups") {
+      return "cup.svg";
+    }
+    if (value === "sundaes") {
+      return "sundaes.svg";
+    }
+    if (value === "cones") {
+      return "cones.svg";
+    }
+    if (value === "delights") {
+      return "cake.svg";
+    }
+  };
 
   return (
-    <div style={{ marginTop: 100, padding: "0px 250px 0px 250px" }}>
-      <form onSubmit={handleSubmit} className="form">
-        <OrderBy submit={submit} handleForm={handleForm} userData={userData} />
+    <div style={{ marginTop: 100 }}>
+      <Search
+        placeholder="Search Item"
+        onSearch={onSearch}
+        style={{ width: 300, marginLeft: 30 }}
+      />
 
-        <OrderItems
-          getDonex={getDonex}
-          userData={userData}
-          handleAdd={handleAdd}
-          handleOrderFormMui={handleOrderFormMui}
-          handleSize={handleSize}
-          handleOrderForm={handleOrderForm}
-          deleteItem={deleteItem}
-        />
-        {!!showOrder && (
-          <div style={{ marginTop: 100 }}>
-            <ItemDetails
-              getPrice={getPrice}
-              userData={userData}
-            />
-            <OrderDetails
-              grandTotal={getGrandTotal()}
-              userData={userData}
-            />
-          </div>
-        )}
+      <form onSubmit={handleSubmit} className="form">
         <div
-          className="form-group"
           style={{
-            marginTop: 40,
-            marginBottom: 100,
-            justifyContent: "end",
+            width: "65%",
+            overflow: "scroll",
             display: "flex",
+            flexWrap: "wrap",
+            gap: 30,
           }}
         >
-          <Button
-            style={{ height: 50, width: 150 }}
-            type="submit"
-            className="submit-button"
-            variant="contained"
+          {filtered().map((el: any, index: number) => (
+            <Card
+              key={index}
+              style={{ width: 260 }}
+              cover={
+                <img
+                  alt="example"
+                  src={getImg(el.category)}
+                  height={100}
+                  width={100}
+                />
+              }
+              actions={[
+                <MinusCircleOutlined onClick={() => handleMenu("minus", el)} />,
+                <PlusCircleOutlined onClick={() => handleMenu("add", el)} />,
+              ]}
+            >
+              <Meta
+                title={el.label}
+                description={`Price: ${
+                  el.price?.small ? el.price?.large : el.price
+                } PKR`}
+              />
+            </Card>
+          ))}
+        </div>
+        <div style={{ width: 500, marginTop: -70 }}>
+          <OrderBy
+            submit={submit}
+            handleForm={handleForm}
+            userData={userData}
+          />
+          <ItemDetails
+            myOrder={myOrder}
+            getPrice={getPrice}
+            userData={userData}
+          />
+          <div
+            className="form-group"
+            style={{
+              marginTop: 20,
+              marginBottom: 100,
+              justifyContent: "end",
+              display: "flex",
+            }}
           >
-            Order Now
-          </Button>
+            <Button
+              style={{ height: 50, width: 150 }}
+              type="submit"
+              className="submit-button"
+              variant="contained"
+            >
+              Order Now
+            </Button>
+          </div>
         </div>
         <Bill
           grandTotal={getGrandTotal()}
           getPrice={getPrice}
           userData={userData}
           orderNumber={orderNumber}
+          myOrder={myOrder}
         />
       </form>
-      <Ptt/>
     </div>
   );
 }

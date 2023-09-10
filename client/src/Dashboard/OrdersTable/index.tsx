@@ -4,19 +4,18 @@ import SaleBlock from "./SaleBlock";
 import Vtable from "../../Shared/Vtabel/Vtable";
 import { UserOutlined } from "@ant-design/icons";
 
-const OrdersTable = ({ details, text, dateData }: any) => {
+const OrdersTable = ({ text, dateData }: any) => {
+  console.log(dateData)
   const fltData: any = useMemo(() => {
-    if (dateData?.data) {
+    if (dateData?.data?.order) {
       if (text) {
-        return dateData?.data.filter((el: any) =>
+        return dateData?.data?.order.filter((el: any) =>
           el?.serverName?.includes(text)
         );
       }
-      return dateData?.data;
+      return dateData?.data?.order;
     }
-    if (!text) return details;
-    return details.filter((el: any) => el?.serverName?.includes(text));
-  }, [text, details, dateData]);
+  }, [text, dateData]);
 
   const getDateFormate = (myDate: any) => {
     const dateObj = new Date(myDate);
@@ -30,25 +29,17 @@ const OrdersTable = ({ details, text, dateData }: any) => {
   };
 
   const getOrderCols = (customArray: any, customDate: any) => {
-    console.log(customArray);
     return {
       data: () => {
         let data = [];
         for (let i = 0; i < customArray.length; i++) {
           const elx = customArray[i];
-          const {
-            itemName,
-            itemCategory,
-            itemPrice,
-            itemQuantity,
-            itemSize,
-          }: any = elx;
+          const { itemName, itemCategory, itemPrice, itemQuantity }: any = elx;
           data.push({
             itemName,
             itemCategory,
             itemPrice,
             itemQuantity,
-            itemSize,
             createdAt: getDateFormate(customDate),
           });
         }
@@ -74,14 +65,6 @@ const OrdersTable = ({ details, text, dateData }: any) => {
             dataIndex: "itemQuantity",
           },
           {
-            title: "Item Size",
-            dataIndex: "itemSize",
-          },
-          {
-            title: "Item Size",
-            dataIndex: "itemSize",
-          },
-          {
             title: "Date",
             dataIndex: "createdAt",
           },
@@ -95,11 +78,10 @@ const OrdersTable = ({ details, text, dateData }: any) => {
       {dateData?.searchedDate && <DateData dateData={dateData} />}
       <SaleBlock
         isDate={dateData?.searchedDate}
-        totalClients={fltData.length}
         dateData={dateData}
       />
 
-      {!!fltData.length &&
+      {!!fltData?.length &&
         fltData.map((el: any, index: number) => (
           <div key={index} style={{ marginTop: 120 }}>
             <div style={{ display: "flex", gap: 10 }}>

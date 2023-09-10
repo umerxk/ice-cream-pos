@@ -12,7 +12,9 @@
 
 .form {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  margin: 30px;
+  max-height: 80vh;
 }
 
 .tableNumber {
@@ -100,13 +102,13 @@ img {
   font-size: 14px !important;
 }
 
-.ant-card{
+/* .ant-card{
   box-shadow: 0px 2px 4px rgba(235, 236, 241, 0.951);
   border: 2px solid #ebebf1;
   display: flex !important;
   justify-content: center !important;
 
-}
+} */
 .serverChip{
   padding: 10px;
   border: 1px solid lightgray;

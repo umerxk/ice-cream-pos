@@ -9,7 +9,7 @@ const mongoosed = require("mongoose");
 app.register(cors);
 
 try {
-  mongoosed.connect('mongodb://127.0.0.1/blog')
+  mongoosed.connect("mongodb://127.0.0.1/blog");
 } catch (e) {
   console.error(e);
 }
@@ -55,12 +55,16 @@ app.get("/most-selling-unit/:customDate", async (request: any, reply: any) => {
 });
 
 const latestRecord = async () => {
-  return await orderDB.find({}).sort({ orderNumber: -1 }).limit(1).select("orderNumber");
-}
+  return await orderDB
+    .find({})
+    .sort({ orderNumber: -1 })
+    .limit(1)
+    .select("orderNumber");
+};
 
 app.get("/latest-order", async (request: any, reply: any) => {
   return await latestRecord();
-})
+});
 
 app.get("/total-sale-by-date/:id", async (request: any, reply: any) => {
   const { id } = request.params;
@@ -71,15 +75,23 @@ app.get("/total-sale-by-date/:id", async (request: any, reply: any) => {
       $unwind: "$orderDetails",
     },
     {
+      $project: {
+        totalPrice: {
+          $multiply: ["$orderDetails.itemPrice", "$orderDetails.itemQuantity"],
+        },
+      },
+    },
+    {
       $group: {
         _id: null,
-        totalPrice: { $sum: "$orderDetails.itemPrice" },
+        totalPrice: { $sum: "$totalPrice" },
       },
     },
     {
       $project: { totalPrice: 1, _id: 0 },
     },
   ];
+
   if (id !== "all") {
     customAggregate.unshift({
       $match: {
@@ -94,18 +106,37 @@ app.get("/total-sale-by-date/:id", async (request: any, reply: any) => {
   reply.send(results[0]);
 });
 
-app.get("/date/:id", async (request: any, reply: any) => {
+app.get("/date/:id/:page", async (request: any, reply: any) => {
   try {
+    if (request.params.id === "all") {
+      const totalCount = await orderDB.countDocuments({});
+      const order = await orderDB
+        .find({})
+        .sort({ createdAt: -1 })
+        .limit(10)
+        .skip((request.params.page - 1) * 10);
+      return reply.send({ order, totalCount });
+    }
     const targetDate = new Date(request.params.id);
     const formatedDate = formateDate(targetDate);
-
-    const order = await orderDB.find({
+    const totalCount = await orderDB.countDocuments({
       createdAt: {
         $gt: formatedDate.startDate,
         $lt: formatedDate.endDate,
       },
     });
-    reply.send(order);
+
+    const order = await orderDB
+      .find({
+        createdAt: {
+          $gt: formatedDate.startDate,
+          $lt: formatedDate.endDate,
+        },
+      })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .skip((request.params.page - 1) * 10);
+    reply.send({ order, totalCount });
   } catch (err) {
     console.log(err);
   }
@@ -180,9 +211,9 @@ app.post("/add-order", async (request: any, reply: any) => {
   try {
     const { serverName, tableNo, order } = request.body;
     const onumber = await latestRecord();
-    const orderNumber = onumber[0]?.orderNumber ? onumber[0]?.orderNumber + 1 : 0;
-    console.log(onumber)
-    console.log(orderNumber, "zzzzz")
+    const orderNumber = onumber.length ? onumber[0]?.orderNumber + 1 : 1;
+    console.log(onumber);
+    console.log(orderNumber, "zzzzz");
     const newOrder = new orderDB();
     newOrder.serverName = serverName;
     newOrder.tableNo = tableNo;
@@ -200,11 +231,9 @@ app.post("/add-order", async (request: any, reply: any) => {
       };
       finalOrder.push(orderObj);
     }
-
     newOrder.orderDetails = finalOrder;
-    console.log(newOrder)
-    let x = await newOrder.save();
-    reply.send(x);
+    const orderCreated = await newOrder.save();
+    reply.send(orderCreated);
   } catch (err) {
     console.log(err);
   }
@@ -218,5 +247,3 @@ const start = async () => {
   }
 };
 start();
-
-console.log("hello");

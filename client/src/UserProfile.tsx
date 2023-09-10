@@ -63,7 +63,7 @@ export default function UserProfile(props: Props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar style={{ backgroundColor: "red" }} component="nav">
         <Toolbar>
           <IconButton
             color="inherit"
