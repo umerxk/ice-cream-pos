@@ -247,7 +247,6 @@ function Crud() {
             <h2>{categories[currentItem]?.label}</h2>
           </div>
         )}
-
         <form onSubmit={handleSubmit} className="form">
           {currentItem === "" ? (
             <div
