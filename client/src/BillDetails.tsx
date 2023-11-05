@@ -8,8 +8,8 @@ const ReceiptPrinter = ({
 }: any) => {
   return (
     <div className="receipt app" id="bill_" style={{ display: "none" }}>
-      {/* <img src={"boys.png"} style={{ height: 100, width: 100, marginTop: -40 }} /> */}
-      <h1>The Boys</h1>
+      <img src={"logo.png"} style={{ height: 100, width: 100, marginTop: -40 }} />
+      {/* <h1>The Boys</h1> */}
       <div
         style={{
           display: "flex",

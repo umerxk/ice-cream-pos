@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { wholeMenu } from "./Menu";
+import { useState, useEffect, useMemo } from "react";
+import { wholeMenu, wholeMenuCategories } from "./Menu";
 import { Button } from "@mui/material";
 import { servers, tableNo } from "./servers";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -8,6 +8,8 @@ import Bill from "./Bill";
 import ItemDetails from "./BillDetails/ItemDetails/ItemDetails";
 import OrderBy from "./crud/OrderBy";
 import axios from "axios";
+import Category from "./Category";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const { Meta } = Card;
 const { Search } = Input;
@@ -23,6 +25,7 @@ function Crud() {
   const [orderNumber, setOrderNumber] = useState(0);
   const [text, setText] = useState("");
   const [myOrder, setMyOrder] = useState<any>([]);
+  const [currentItem, setCurrentItem] = useState<any>("");
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -42,7 +45,7 @@ function Crud() {
     let { data } = await axios.get("http://localhost:5001/latest-order");
     setOrderNumber(data[0].orderNumber);
     setMyOrder([]);
-    setUserData(userFields)
+    setUserData(userFields);
   };
 
   const getFilteredData = (_data: any) => {
@@ -145,8 +148,8 @@ function Crud() {
   };
 
   const filtered: any = () => {
-    if (!text) return wholeMenu;
-    return wholeMenu.filter((el: any) =>
+    if (!text) return wholeMenuCategories[currentItem];
+    return wholeMenuCategories[currentItem]?.filter((el: any) =>
       el.label.toLowerCase().includes(text.toLocaleLowerCase())
     );
   };
@@ -172,88 +175,175 @@ function Crud() {
     }
   };
 
+  const categories = [
+    {
+      label: "blizzerd",
+    },
+    {
+      label: "cones",
+    },
+    {
+      label: "cups",
+    },
+    {
+      label: "delights",
+    },
+    {
+      label: "shakes",
+    },
+    {
+      label: "sundaes",
+    },
+  ];
+
+  const handleItem = (value: any) => {
+    const index = categories.findIndex((el) => el.label === value);
+    setCurrentItem(index);
+  };
+
+  const isCatSelected = useMemo(() => {
+    return !!currentItem || currentItem === 0;
+  }, [currentItem]);
+
+  console.log(isCatSelected, "isC at selected");
+
   return (
     <div style={{ marginTop: 100 }}>
-      <Search
-        placeholder="Search Item"
-        onSearch={onSearch}
-        style={{ width: 300, marginLeft: 30 }}
-      />
+      {isCatSelected && (
+        <Search
+          placeholder="Search Items"
+          onSearch={onSearch}
+          style={{ width: 300, marginLeft: 50 }}
+        />
+      )}
 
-      <form onSubmit={handleSubmit} className="form">
-        <div
-          style={{
-            width: "65%",
-            overflow: "scroll",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 30,
-          }}
-        >
-          {filtered().map((el: any, index: number) => (
-            <Card
-              key={index}
-              style={{ width: 260 }}
-              cover={
-                <img
-                  alt="example"
-                  src={getImg(el.category)}
-                  height={100}
-                  width={100}
-                />
-              }
-              actions={[
-                <MinusCircleOutlined onClick={() => handleMenu("minus", el)} />,
-                <PlusCircleOutlined onClick={() => handleMenu("add", el)} />,
-              ]}
-            >
-              <Meta
-                title={el.label}
-                description={`Price: ${
-                  el.price?.small ? el.price?.large : el.price
-                } PKR`}
-              />
-            </Card>
-          ))}
-        </div>
-        <div style={{ width: 500, marginTop: -70 }}>
-          <OrderBy
-            submit={submit}
-            handleForm={handleForm}
-            userData={userData}
-          />
-          <ItemDetails
-            myOrder={myOrder}
-            getPrice={getPrice}
-            userData={userData}
-          />
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {isCatSelected && (
           <div
-            className="form-group"
+            onClick={() => {
+              setCurrentItem("");
+              setText("");
+            }}
             style={{
-              marginTop: 20,
-              marginBottom: 100,
-              justifyContent: "end",
               display: "flex",
+              gap: 10,
+              alignItems: "center",
+              marginTop: 50,
+              cursor: "pointer",
             }}
           >
-            <Button
-              style={{ height: 50, width: 150 }}
-              type="submit"
-              className="submit-button"
-              variant="contained"
-            >
-              Order Now
-            </Button>
+            <ArrowBackIcon
+              style={{
+                marginLeft: 70,
+                fontSize: 30,
+              }}
+            />
+            <h2>{categories[currentItem]?.label}</h2>
           </div>
-        </div>
-        <Bill
-          grandTotal={getGrandTotal()}
-          getPrice={getPrice}
-          userData={userData}
-          orderNumber={orderNumber}
-          myOrder={myOrder}
-        />
-      </form>
+        )}
+
+        <form onSubmit={handleSubmit} className="form">
+          {currentItem === "" ? (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 10,
+              }}
+            >
+              {categories.map((cat, index) => (
+                <Category
+                  onClick={() => handleItem(cat.label)}
+                  getImg={getImg}
+                  key={index}
+                  cat={cat}
+                />
+              ))}
+            </div>
+          ) : (
+            <div
+              style={{
+                width: "65%",
+                overflow: "scroll",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 30,
+                marginLeft: 20,
+                marginTop: 10,
+              }}
+            >
+              {filtered()?.map((el: any, index: number) => (
+                <Card
+                  key={index}
+                  style={{ width: 260 }}
+                  cover={
+                    <img
+                      alt="example"
+                      src={getImg(el.category)}
+                      height={100}
+                      width={100}
+                    />
+                  }
+                  actions={[
+                    <MinusCircleOutlined
+                      onClick={() => handleMenu("minus", el)}
+                    />,
+                    <PlusCircleOutlined
+                      onClick={() => handleMenu("add", el)}
+                    />,
+                  ]}
+                >
+                  <Meta
+                    title={el.label}
+                    description={`Price: ${
+                      el.price?.small ? el.price?.large : el.price
+                    } PKR`}
+                  />
+                </Card>
+              ))}
+            </div>
+          )}
+          <div
+            style={{ width: 500, marginTop: `${isCatSelected ? -200 : 0}px` }}
+          >
+            <OrderBy
+              submit={submit}
+              handleForm={handleForm}
+              userData={userData}
+            />
+            <ItemDetails
+              myOrder={myOrder}
+              getPrice={getPrice}
+              userData={userData}
+            />
+            <div
+              className="form-group"
+              style={{
+                marginTop: 20,
+                marginBottom: 100,
+                justifyContent: "end",
+                display: "flex",
+              }}
+            >
+              <Button
+                style={{ height: 50, width: 150 }}
+                type="submit"
+                className="submit-button"
+                variant="contained"
+              >
+                Order Now
+              </Button>
+            </div>
+          </div>
+          <Bill
+            grandTotal={getGrandTotal()}
+            getPrice={getPrice}
+            userData={userData}
+            orderNumber={orderNumber}
+            myOrder={myOrder}
+          />
+        </form>
+      </div>
     </div>
   );
 }

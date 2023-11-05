@@ -599,3 +599,13 @@ export const wholeMenu = [
   ...shakes,
   ...sundaes,
 ];
+
+
+export const wholeMenuCategories = [
+  blizzerd,
+  cones,
+  cups,
+  delights,
+  shakes,
+  sundaes,
+];
