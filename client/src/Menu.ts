@@ -591,6 +591,81 @@ export const blizzerd = [
   },
 ];
 
+export const beverages = [
+  {
+    label: "Karak Tea",
+    value: "karakTea",
+    price: 170,
+    category: "beverages",
+  },
+  {
+    label: "Kashmiri Tea",
+    value: "kashmiriTea",
+    price: 170,
+    category: "beverages",
+  },
+  {
+    label: "Cardamom",
+    value: "cardamom",
+    price: 200,
+    category: "beverages",
+  },
+  {
+    label: "Mocha",
+    value: "mocha",
+    price: 280,
+    category: "beverages",
+  },
+  {
+    label: "Cappuccino",
+    value: "cappuccino",
+    price: 250,
+    category: "beverages",
+  },
+  {
+    label: "Espresso",
+    value: "espresso",
+    price: 150,
+    category: "beverages",
+  },
+  {
+    label: "Hot-Chocolate",
+    value: "hotChocolate",
+    price: 280,
+    category: "beverages",
+  },
+  {
+    label: "Latte",
+    value: "latte",
+    price: 200,
+    category: "beverages",
+  },
+  {
+    label: "Caramel Latte",
+    value: "caramelLatte",
+    price: 350,
+    category: "beverages",
+  },
+  {
+    label: "Hazelnut Latte",
+    value: "hazelnutLatte",
+    price: 350,
+    category: "beverages",
+  },
+  {
+    label: "Vanilla Latte",
+    value: "vanillaLatte",
+    price: 350,
+    category: "beverages",
+  },
+  {
+    label: "Pistachio Latte",
+    value: "pistachioLatte",
+    price: 350,
+    category: "beverages",
+  },
+];
+
 export const wholeMenu = [
   ...blizzerd,
   ...cones,
@@ -598,6 +673,7 @@ export const wholeMenu = [
   ...delights,
   ...shakes,
   ...sundaes,
+  ...beverages
 ];
 
 
@@ -608,4 +684,5 @@ export const wholeMenuCategories = [
   delights,
   shakes,
   sundaes,
+  beverages
 ];

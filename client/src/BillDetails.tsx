@@ -8,9 +8,8 @@ const ReceiptPrinter = ({
 }: any) => {
   return (
     <div className="receipt app" id="bill_" style={{ display: "none" }}>
-      <img src={"logo.png"} style={{ height: 100, width: 100, marginTop: -40 }} />
+      <img src={"logo.png"} style={{ height: 100, width: 100, marginTop: 0 }} />
       {/* <h1>The Boys</h1> */}
-      
       <div
         style={{
           display: "flex",
@@ -25,20 +24,20 @@ const ReceiptPrinter = ({
       </div>
 
       <div style={{ marginTop: 0, textAlign: "start" }} className="hds">
-        <div>-------------------------------------------------------------</div>
+        <div>---------------------------------------</div>
         Date {new Date().toLocaleDateString()}
-        <div>-------------------------------------------------------------</div>
+        <div>---------------------------------------</div>
       </div>
 
       <div className="receipt-items">
         {myOrder?.map((item: any, index: any) => (
           <div key={index} className="receipt-item">
             <span className="item-name">{item?.label}</span>
-            <span className="item-size">
+            <span className="item-size" style={{ marginLeft: 10 }}>
               {item.price?.small ? item.price?.large : item?.price}
             </span>
             <span className="item-quantity" style={{ marginRight: 10 }}>
-              x{item?.count}
+              {` x ${item?.count}`}
             </span>
             <span className="item-price">{item?.count * item?.price}</span>
           </div>

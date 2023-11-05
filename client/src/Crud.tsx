@@ -173,6 +173,9 @@ function Crud() {
     if (value === "delights") {
       return "cake.svg";
     }
+    if (value === "beverages") {
+      return "coffee.svg";
+    }
   };
 
   const categories = [
@@ -194,6 +197,9 @@ function Crud() {
     {
       label: "sundaes",
     },
+    {
+      label: "beverages"
+    }
   ];
 
   const handleItem = (value: any) => {
@@ -249,6 +255,7 @@ function Crud() {
                 display: "flex",
                 flexWrap: "wrap",
                 gap: 10,
+                width: "80%",
               }}
             >
               {categories.map((cat, index) => (
